@@ -47,7 +47,6 @@ public class BrowserWebViewFactory implements WebViewFactory {
     public WebView createWebView(boolean privateBrowsing) {
         WebView w = instantiateWebView(null, android.R.attr.webViewStyle, privateBrowsing);
         initWebViewSettings(w);
-        ((BrowserWebView)w).setPrivateBrowsing(privateBrowsing);
         return w;
     }
 

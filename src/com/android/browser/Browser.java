@@ -42,6 +42,5 @@ public class Browser extends Application {
         BrowserSettings.initialize(getApplicationContext());
         Preloader.initialize(getApplicationContext());
     }
-
 }
 

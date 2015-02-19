@@ -57,6 +57,12 @@
     <!-- Label for a confirm button.  Used in multiple contexts. -->
     <string name="ok">OK</string>
 
+    <string name="window_icon">Window icon</string>
+    <string name="hide">Hide</string>
+    <string name="close">Close</string>
+    <string name="corner">Corner</string>
+    <string name="maximize">Maximize</string>
+
     <!-- Displayed on the title bar while the page is loading -->
     <string name="title_bar_loading">Loading\u2026</string>
 
@@ -707,8 +713,7 @@
     <!-- Dialog box title -->
     <string name="loadSuspendedTitle">No connection</string>
     <!-- Dialog box message -->
-    <string name="loadSuspended">The browser can\'t load this page because there\'s
-      no Internet connection.</string>
+    <string name="loadSuspended">The browser can\'t load this page because there\'s no Internet connection.</string>
     <!-- Menu item -->
     <string name="clear_history">Clear history</string>
     <!-- History screen title; appears in title bar -->
@@ -801,32 +806,16 @@
     <string-array name="bookmarks" translatable="false">
         <item>Google</item>
         <item>http://www.google.com/</item>
-        <item>Picasa</item>
-        <item>http://picasaweb.google.com/</item>
-        <item>Yahoo!</item>
-        <item>http://www.yahoo.com/</item>
-        <item>MSN</item>
-        <item>http://www.msn.com/</item>
-        <item>Twitter</item>
-        <item>http://twitter.com/</item>
-        <item>Facebook</item>
-        <item>http://www.facebook.com/</item>
         <item>Wikipedia</item>
         <item>http://www.wikipedia.org/</item>
-        <item>eBay</item>
-        <item>http://www.ebay.com/</item>
         <item>CNN</item>
         <item>http://www.cnn.com/</item>
-        <item>NY Times</item>
-        <item>http://www.nytimes.com/</item>
-        <item>ESPN</item>
-        <item>http://espn.com/</item>
         <item>Amazon</item>
         <item>http://www.amazon.com/</item>
         <item>Weather Channel</item>
         <item>http://www.weather.com/</item>
-        <item>BBC</item>
-        <item>http://www.bbc.co.uk/</item>
+	<item>Hazy</item>
+        <item>https://www.hazyrom.net/</item>
     </string-array>
 
     <!-- Bookmark name for Picasa website -->
@@ -1019,5 +1008,7 @@
     <string name="accessibility_transition_navscreen">Tab management</string>
     <!-- Content description for navigating up in the bookmark folder hierarchy [CHAR LIMIT=NONE] -->
     <string name="accessibility_button_bookmarks_folder_up">Previous folder</string>
+    
+    <string name="find_on_page">Find</string>
 
 </resources>

@@ -17,14 +17,11 @@ package com.android.browser.search;
 
 import com.android.browser.R;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.charset.IllegalCharsetNameException;
-import java.nio.charset.UnsupportedCharsetException;
-import libcore.io.Streams;
-import libcore.net.http.ResponseUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.params.HttpParams;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -36,6 +33,7 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.http.AndroidHttpClient;
 import android.os.Bundle;
 import android.provider.Browser;
 import android.text.TextUtils;
@@ -52,6 +50,9 @@ public class OpenSearchSearchEngine implements SearchEngine {
 
     private static final String USER_AGENT = "Android/1.0";
     private static final int HTTP_TIMEOUT_MS = 1000;
+
+    // TODO: this should be defined somewhere
+    private static final String HTTP_TIMEOUT = "http.connection-manager.timeout";
 
     // Indices of the columns in the below arrays.
     private static final int COLUMN_INDEX_ID = 0;
@@ -79,8 +80,13 @@ public class OpenSearchSearchEngine implements SearchEngine {
 
     private final SearchEngineInfo mSearchEngineInfo;
 
+    private final AndroidHttpClient mHttpClient;
+
     public OpenSearchSearchEngine(Context context, SearchEngineInfo searchEngineInfo) {
         mSearchEngineInfo = searchEngineInfo;
+        mHttpClient = AndroidHttpClient.newInstance(USER_AGENT);
+        HttpParams params = mHttpClient.getParams();
+        params.setLongParameter(HTTP_TIMEOUT, HTTP_TIMEOUT_MS);
     }
 
     public String getName() {
@@ -161,31 +167,16 @@ public class OpenSearchSearchEngine implements SearchEngine {
     /**
      * Executes a GET request and returns the response content.
      *
-     * @param urlString Request URI.
+     * @param url Request URI.
      * @return The response content. This is the empty string if the response
      *         contained no content.
      */
-    public String readUrl(String urlString) {
+    public String readUrl(String url) {
         try {
-            URL url = new URL(urlString);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestProperty("User-Agent", USER_AGENT);
-            urlConnection.setConnectTimeout(HTTP_TIMEOUT_MS);
-
-            if (urlConnection.getResponseCode() == 200) {
-                final Charset responseCharset;
-                try {
-                    responseCharset = ResponseUtils.responseCharset(urlConnection.getContentType());
-                } catch (UnsupportedCharsetException ucse) {
-                    Log.i(TAG, "Unsupported response charset", ucse);
-                    return null;
-                } catch (IllegalCharsetNameException icne) {
-                    Log.i(TAG, "Illegal response charset", icne);
-                    return null;
-                }
-
-                byte[] responseBytes = Streams.readFully(urlConnection.getInputStream());
-                return new String(responseBytes, responseCharset);
+            HttpGet method = new HttpGet(url);
+            HttpResponse response = mHttpClient.execute(method);
+            if (response.getStatusLine().getStatusCode() == 200) {
+                return EntityUtils.toString(response.getEntity());
             } else {
                 Log.i(TAG, "Suggestion request failed");
                 return null;
@@ -201,6 +192,7 @@ public class OpenSearchSearchEngine implements SearchEngine {
     }
 
     public void close() {
+        mHttpClient.close();
     }
 
     private boolean isNetworkConnected(Context context) {

@@ -669,7 +669,7 @@ public class AddBookmarkPage extends Activity
         mCrumbs = (BreadCrumbView) findViewById(R.id.crumbs);
         mCrumbs.setUseBackButton(true);
         mCrumbs.setController(this);
-        mHeaderIcon = getResources().getDrawable(R.drawable.ic_folder_holo_dark);
+        mHeaderIcon = getResources().getDrawable(R.drawable.ic_folder_dark);
         mCrumbHolder = findViewById(R.id.crumb_holder);
         mCrumbs.setMaxVisible(MAX_CRUMBS_SHOWN);
 
@@ -770,7 +770,7 @@ public class AddBookmarkPage extends Activity
                 Bookmarks.addBookmark(AddBookmarkPage.this, false, url,
                         title, thumbnail, mCurrentFolder);
                 if (touchIconUrl != null) {
-                    new DownloadTouchIcon(cr, url).execute(mTouchIconUrl);
+                    new DownloadTouchIcon(mContext, cr, url).execute(mTouchIconUrl);
                 }
                 mMessage.arg1 = 1;
             } catch (IllegalStateException e) {
@@ -937,7 +937,7 @@ public class AddBookmarkPage extends Activity
                     Message msg = Message.obtain(mHandler,
                             TOUCH_ICON_DOWNLOADED);
                     msg.setData(bundle);
-                    DownloadTouchIcon icon = new DownloadTouchIcon(msg,
+                    DownloadTouchIcon icon = new DownloadTouchIcon(this, msg,
                             mMap.getString(USER_AGENT));
                     icon.execute(mTouchIconUrl);
                 } else {

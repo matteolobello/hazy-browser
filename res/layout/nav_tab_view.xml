@@ -20,7 +20,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/nav_tab_bg"
+    android:background="#455a64"
     android:focusable="false">
     <LinearLayout
         android:id="@+id/titlebar"
@@ -28,13 +28,14 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/nav_tab_titleheight"
         android:layout_gravity="center_horizontal"
-        android:paddingLeft="8dip" >
+        android:paddingLeft="8dip">
         <TextView
             android:id="@+id/title"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1.0"
             android:gravity="center_vertical"
+	    android:textColor="@color/white"
             android:singleLine="true"
             android:ellipsize="end"
             android:lines="1"
@@ -47,7 +48,7 @@
             android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:paddingRight="16dip"
+            android:paddingRight="4dip"
             android:contentDescription="@string/accessibility_button_closetab"
             style="@style/HoloButton" />
     </LinearLayout>

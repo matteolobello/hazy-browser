@@ -16,11 +16,16 @@
 
 package com.android.browser;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
+import org.apache.http.Header;
+import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpHead;
+import org.apache.http.conn.params.ConnRouteParams;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.net.Proxy;
+import android.net.http.AndroidHttpClient;
 import android.os.Environment;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
@@ -59,61 +64,80 @@ class FetchUrlMimeType extends Thread {
 
     @Override
     public void run() {
+        // User agent is likely to be null, though the AndroidHttpClient
+        // seems ok with that.
+        AndroidHttpClient client = AndroidHttpClient.newInstance(mUserAgent);
+        HttpHost httpHost;
+        try {
+            httpHost = Proxy.getPreferredHttpHost(mContext, mUri);
+            if (httpHost != null) {
+                ConnRouteParams.setDefaultProxy(client.getParams(), httpHost);
+            }
+        } catch (IllegalArgumentException ex) {
+            Log.e(LOGTAG,"Download failed: " + ex);
+            client.close();
+            return;
+        }
+        HttpHead request = new HttpHead(mUri);
+
+        if (mCookies != null && mCookies.length() > 0) {
+            request.addHeader("Cookie", mCookies);
+        }
+
+        HttpResponse response;
         String mimeType = null;
         String contentDisposition = null;
-        HttpURLConnection connection = null;
         try {
-            URL url = new URL(mUri);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("HEAD");
-
-            if (mUserAgent != null) {
-                connection.addRequestProperty("User-Agent", mUserAgent);
-            }
-
-            if (mCookies != null && mCookies.length() > 0) {
-                connection.addRequestProperty("Cookie", mCookies);
-            }
-
-            if (connection.getResponseCode() == 200) {
-                mimeType = connection.getContentType();
-                if (mimeType != null) {
+            response = client.execute(request);
+            // We could get a redirect here, but if we do lets let
+            // the download manager take care of it, and thus trust that
+            // the server sends the right mimetype
+            if (response.getStatusLine().getStatusCode() == 200) {
+                Header header = response.getFirstHeader("Content-Type");
+                if (header != null) {
+                    mimeType = header.getValue();
                     final int semicolonIndex = mimeType.indexOf(';');
                     if (semicolonIndex != -1) {
                         mimeType = mimeType.substring(0, semicolonIndex);
                     }
                 }
-
-                contentDisposition = connection.getHeaderField("Content-Disposition");
-            }
-        } catch (IOException ioe) {
-            Log.e(LOGTAG,"Download failed: " + ioe);
-        } finally {
-            if (connection != null) {
-                connection.disconnect();
-            }
-        }
-
-        if (mimeType != null) {
-            if (mimeType.equalsIgnoreCase("text/plain") ||
-                    mimeType.equalsIgnoreCase("application/octet-stream")) {
-                String newMimeType =
-                        MimeTypeMap.getSingleton().getMimeTypeFromExtension(
-                                MimeTypeMap.getFileExtensionFromUrl(mUri));
-                if (newMimeType != null) {
-                    mimeType = newMimeType;
-                    mRequest.setMimeType(newMimeType);
+                Header contentDispositionHeader = response.getFirstHeader("Content-Disposition");
+                if (contentDispositionHeader != null) {
+                    contentDisposition = contentDispositionHeader.getValue();
                 }
             }
-            String filename = URLUtil.guessFileName(mUri, contentDisposition,
-                    mimeType);
-            mRequest.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
+        } catch (IllegalArgumentException ex) {
+            if (request != null) {
+                request.abort();
+            }
+        } catch (IOException ex) {
+            if (request != null) {
+                request.abort();
+            }
+        } finally {
+            client.close();
         }
 
-        // Start the download
-        DownloadManager manager = (DownloadManager) mContext.getSystemService(
-                Context.DOWNLOAD_SERVICE);
-        manager.enqueue(mRequest);
+       if (mimeType != null) {
+           if (mimeType.equalsIgnoreCase("text/plain") ||
+                   mimeType.equalsIgnoreCase("application/octet-stream")) {
+               String newMimeType =
+                       MimeTypeMap.getSingleton().getMimeTypeFromExtension(
+                           MimeTypeMap.getFileExtensionFromUrl(mUri));
+               if (newMimeType != null) {
+                   mimeType = newMimeType;
+                   mRequest.setMimeType(newMimeType);
+               }
+           }
+           String filename = URLUtil.guessFileName(mUri, contentDisposition,
+                mimeType);
+           mRequest.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
+       }
+
+       // Start the download
+       DownloadManager manager = (DownloadManager) mContext.getSystemService(
+               Context.DOWNLOAD_SERVICE);
+       manager.enqueue(mRequest);
     }
 
 }

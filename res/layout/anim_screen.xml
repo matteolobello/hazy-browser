@@ -21,7 +21,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:focusable="false"
-    android:background="@drawable/browser_background_holo">
+    android:background="#263238">
     <ImageView
         android:id="@+id/title"
         android:layout_width="match_parent"
@@ -30,5 +30,5 @@
         android:id="@+id/content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/white" />
+        android:background="#eceff1" />
 </LinearLayout>

@@ -351,11 +351,6 @@ class Tab implements PictureListener {
                     view.isPrivateBrowsingEnabled(), url, favicon);
             mLoadStartTime = SystemClock.uptimeMillis();
 
-            if (isPrivateBrowsingEnabled()) {
-                // Ignore all the cookies while an incognito tab has activity
-                CookieManager.getInstance().setAcceptCookie(false);
-            }
-
             // If we start a touch icon load and then load a new page, we don't
             // want to cancel the current touch icon loader. But, we do want to
             // create a new one when the touch icon url is known.
@@ -391,10 +386,6 @@ class Tab implements PictureListener {
             if (!isPrivateBrowsingEnabled()) {
                 LogTag.logPageFinishedLoading(
                         url, SystemClock.uptimeMillis() - mLoadStartTime);
-            } else {
-                // Ignored all the cookies while an incognito tab had activity,
-                // restore default after completion
-                CookieManager.getInstance().setAcceptCookie(mSettings.acceptCookies());
             }
             syncCurrentState(view, url);
             mWebViewController.onPageFinished(Tab.this);
@@ -856,7 +847,8 @@ class Tab implements PictureListener {
             }
             // Have only one async task at a time.
             if (mTouchIconLoader == null) {
-                mTouchIconLoader = new DownloadTouchIcon(Tab.this, cr, view);
+                mTouchIconLoader = new DownloadTouchIcon(Tab.this,
+                        mContext, cr, view);
                 mTouchIconLoader.execute(url);
             }
         }
@@ -1048,11 +1040,7 @@ class Tab implements PictureListener {
          */
         @Override
         public void getVisitedHistory(final ValueCallback<String[]> callback) {
-            if (isPrivateBrowsingEnabled()) {
-                callback.onReceiveValue(new String[0]);
-            } else {
-                mWebViewController.getVisitedHistory(callback);
-            }
+            mWebViewController.getVisitedHistory(callback);
         }
 
     };
@@ -1543,12 +1531,6 @@ class Tab implements PictureListener {
      * @return The main WebView of this tab.
      */
     WebView getWebView() {
-        /* Ensure the root webview object is in sync with our internal incognito status */
-        if (mMainView instanceof BrowserWebView) {
-            if (isPrivateBrowsingEnabled() && !mMainView.isPrivateBrowsingEnabled()) {
-                ((BrowserWebView)mMainView).setPrivateBrowsing(isPrivateBrowsingEnabled());
-            }
-        }
         return mMainView;
     }
 
