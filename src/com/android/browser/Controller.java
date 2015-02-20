@@ -1551,9 +1551,9 @@ public class Controller
         }
         switch (item.getItemId()) {
             // -- Main menu
-            case R.id.new_tab_menu_id:
-                openTabToHomePage();
-                break;
+            //case R.id.new_tab_menu_id:
+            //    openTabToHomePage();
+            //    break;
 
             case R.id.close_other_tabs_id:
                 closeOtherTabs();

@@ -40,4 +40,6 @@
     <color name="navtab_bg">#80606060</color>
 
     <color name="menu_background">#232f35</color>
+    <color name="checkbox_color">#1976d2</color>
+
 </resources>

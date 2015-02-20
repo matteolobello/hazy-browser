@@ -48,7 +48,7 @@
             android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:paddingRight="4dip"
+            android:paddingRight="6dip"
             android:contentDescription="@string/accessibility_button_closetab"
             style="@style/HoloButton" />
     </LinearLayout>

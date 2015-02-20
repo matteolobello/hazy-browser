@@ -36,7 +36,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/message"
-        android:layout_alignLeft="@id/message" />
+        android:layout_alignLeft="@id/message"
+        style="@style/CustomCheckBox" />
     <TextView
         android:paddingLeft="4dip"
         android:text="@string/geolocation_permissions_prompt_remember"
@@ -70,6 +71,7 @@
                 android:layout_weight="1"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
+	        android:textColor="#1976d2"
                 android:text="@string/geolocation_permissions_prompt_dont_share" />
             <Button
                 android:id="@+id/share_button"
@@ -77,6 +79,7 @@
                 android:layout_weight="1"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
+	        android:textColor="#1976d2"
                 android:text="@string/geolocation_permissions_prompt_share" />
         </LinearLayout>
     </LinearLayout>

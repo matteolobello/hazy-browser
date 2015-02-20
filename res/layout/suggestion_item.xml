@@ -25,6 +25,7 @@
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:baselineAligned="false"
+    android:background="#ffffff"
     >
     <LinearLayout
         android:id="@+id/suggestion"

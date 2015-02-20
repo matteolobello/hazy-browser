@@ -28,13 +28,13 @@
                 android:title="@string/forward"
                 android:icon="@*android:drawable/ic_menu_forward" />
         </group>
-        <item
+        <!--<item
             android:id="@+id/new_tab_menu_id"
             android:title="@string/new_tab"
             android:icon="@drawable/ic_new_window_holo_dark"
             android:showAsAction="never"
             android:alphabeticShortcut="n" />
-        <!--<item
+        <item
             android:id="@+id/incognito_menu_id"
             android:title="@string/new_incognito_tab"
             android:icon="@drawable/ic_new_incognito_holo_dark" />-->
