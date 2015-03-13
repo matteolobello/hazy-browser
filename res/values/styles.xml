@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 /*
- *
  * Copyright 2006,2007,2008 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +24,7 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionModeOverlay">true</item>
         <item name="android:actionBarStyle">@style/ActionBarStyle</item>
-        <item name="android:colorPrimaryDark">#232f35</item>
+        <item name="android:colorPrimaryDark">#37474f</item>
     </style>
 
     <style name="popup_new" parent="android:ThemeOverlay.Material.Light">
@@ -122,6 +121,5 @@
          <item name="android:colorControlNormal">@color/checkbox_color</item>
          <item name="android:colorControlHighlight">@color/checkbox_color</item>
     </style>
-
 
 </resources>

@@ -21,6 +21,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/geolocation_permissions_prompt_background"
+
     android:visibility="gone">
 
     <TextView android:id="@+id/message"
@@ -29,6 +30,7 @@
         android:singleLine="true"
         android:scrollHorizontally="true"
         android:padding="6dip"
+        android:textColor="#ffffff"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <!-- TODO: Implement remember -->
@@ -46,6 +48,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_alignBaseline="@id/remember"
         android:layout_toRightOf="@id/remember"
+        android:textColor="#ffffff"
         android:visibility="invisible" />
 
     <LinearLayout
@@ -56,7 +59,7 @@
         android:divider="?android:attr/dividerHorizontal"
         android:showDividers="beginning"
         android:dividerPadding="16dip"
-        android:background="@null">
+        android:background="#ffffff">
         <LinearLayout
             style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
@@ -65,21 +68,23 @@
             android:paddingLeft="2dip"
             android:paddingRight="2dip"
             android:measureWithLargestChild="true"
-            android:background="@null">
+            android:background="#ffffff">
             <Button
                 android:id="@+id/deny_button"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_weight="1"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:text="@string/permissions_prompt_deny" />
+                android:text="@string/permissions_prompt_deny"
+		android:background="#ffffff" />
             <Button
                 android:id="@+id/allow_button"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_weight="1"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:text="@string/permissions_prompt_allow" />
+                android:text="@string/permissions_prompt_allow"
+		android:background="#ffffff" />
         </LinearLayout>
     </LinearLayout>
 

@@ -233,16 +233,19 @@ public class GoogleAccountLogin implements Runnable,
 
     private void startLogin() {
         saveLoginTime();
-        mProgressDialog = ProgressDialog.show(mActivity,
-                mActivity.getString(R.string.pref_autologin_title),
-                mActivity.getString(R.string.pref_autologin_progress,
-                                    mAccount.name),
-                true /* indeterminate */,
-                true /* cancelable */,
-                this);
-        mState = 1;  // SID
-        AccountManager.get(mActivity).getAuthToken(
-                mAccount, "SID", null, mActivity, this, null);
+        
+        try {
+          //mProgressDialog = ProgressDialog.show(mActivity,
+          //        mActivity.getString(R.string.pref_autologin_title),
+          //        mActivity.getString(R.string.pref_autologin_progress,
+          //                            mAccount.name),
+          //        true /* indeterminate */,
+          //        true /* cancelable */,
+          //        this);*/
+          mState = 1;  // SID
+          AccountManager.get(mActivity).getAuthToken(
+                  mAccount, "SID", null, mActivity, this, null);
+	} catch (Exception e) { e.printStackTrace(); }
     }
 
     private static Account[] getAccounts(Context ctx) {

@@ -12,15 +12,16 @@
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
      See the License for the specific language governing permissions and
      limitations under the License.
--->
 
+     #455a64
+-->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="#455a64"
+    android:background="@drawable/nav_tab_bg"
     android:focusable="false">
     <LinearLayout
         android:id="@+id/titlebar"
@@ -45,19 +46,19 @@
         <ImageView
             android:id="@+id/closetab"
             android:src="@drawable/ic_tab_close"
+            android:visibility="gone"
             android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:paddingRight="6dip"
+            android:paddingRight="8dip"
             android:contentDescription="@string/accessibility_button_closetab"
             style="@style/HoloButton" />
     </LinearLayout>
     <ImageView
         android:id="@+id/tab_view"
         android:src="@drawable/ic_stop_holo_dark"
-        android:layout_width="@dimen/nav_tab_width"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/nav_tab_height"
-        android:paddingLeft="2dip"
-        android:paddingRight="2dip"
+        android:scaleType="fitXY"
         android:focusable="false" />
 </LinearLayout>

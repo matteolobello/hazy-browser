@@ -28,6 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
+        android:textColor="@color/black"
         android:scrollHorizontally="true"
         android:padding="6dip"
         android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -42,6 +43,7 @@
         android:paddingLeft="4dip"
         android:text="@string/geolocation_permissions_prompt_remember"
         android:layout_width="wrap_content"
+        android:textColor="@color/black"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_alignBaseline="@id/remember"

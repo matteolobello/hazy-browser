@@ -27,6 +27,8 @@ import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.Color;
 
 import com.android.browser.UI.ComboViews;
 
@@ -64,6 +66,7 @@ public class ComboViewActivity extends Activity implements CombinedBookmarksCall
             bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME
                     | ActionBar.DISPLAY_USE_LOGO);
             bar.setHomeButtonEnabled(true);
+	    //colorStatusBar();
         } else {
             bar.setDisplayOptions(0);
         }
@@ -88,6 +91,12 @@ public class ComboViewActivity extends Activity implements CombinedBookmarksCall
                 break;
             }
         }
+    }
+   
+    private void colorStatusBar() {
+	SystemBarTintManager tintManager = new SystemBarTintManager(this);
+    	tintManager.setStatusBarTintEnabled(true);  
+        tintManager.setStatusBarTintDrawable(new ColorDrawable(Color.parseColor("#37474f")));      
     }
 
     @Override

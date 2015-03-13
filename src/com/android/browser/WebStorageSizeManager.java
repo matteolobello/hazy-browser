@@ -137,7 +137,13 @@ public class WebStorageSizeManager {
         private StatFs mFs;
 
         public StatFsDiskInfo(String path) {
-            mFs = new StatFs(path);
+            File dir = new File(path);
+	    if (dir.exists())
+               mFs = new StatFs(path);
+            else {
+               dir.mkdir();
+               mFs = new StatFs(path);
+            }
         }
 
         public long getFreeSpaceSizeBytes() {

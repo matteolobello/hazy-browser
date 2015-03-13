@@ -46,7 +46,6 @@ import java.util.HashMap;
 public class NavScreen extends RelativeLayout
         implements OnClickListener, OnMenuItemClickListener, OnThumbnailUpdatedListener {
 
-
     UiController mUiController;
     PhoneUi mUi;
     Tab mTab;
@@ -62,7 +61,7 @@ public class NavScreen extends RelativeLayout
     TextView mTitle;
     ImageView mFavicon;
     ImageButton mCloseTab;
-    ImageView mNewTabFab;
+    View mNewTabFab;
 
     NavTabScroller mScroller;
     TabAdapter mAdapter;
@@ -138,7 +137,7 @@ public class NavScreen extends RelativeLayout
           onCloseTab(tab);
         }
       });
-      mNewTabFab = (ImageButton) findViewById(R.id.floating_action_button);
+      mNewTabFab = (View) findViewById(R.id.floating_action_button_container);
       mNewTabFab.setOnClickListener(
          new View.OnClickListener() {
            @Override

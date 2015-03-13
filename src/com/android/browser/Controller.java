@@ -1059,7 +1059,7 @@ public class Controller
     @Override
     public void showSslCertificateOnError(WebView view, SslErrorHandler handler,
             SslError error) {
-        mPageDialogsHandler.showSSLCertificateOnError(view, handler, error);
+        //mPageDialogsHandler.showSSLCertificateOnError(view, handler, error);
     }
 
     @Override
@@ -1440,7 +1440,7 @@ public class Controller
         }
         MenuItem dest = menu.findItem(R.id.stop_reload_menu_id);
         MenuItem src = ((tab != null) && tab.inPageLoad()) ?
-                menu.findItem(R.id.stop_menu_id):
+                menu.findItem(R.id.stop_menu_id) :
                 menu.findItem(R.id.reload_menu_id);
         if (src != null) {
             dest.setIcon(src.getIcon());

@@ -414,7 +414,7 @@ public class TitleBar extends RelativeLayout {
     }
 
     public void onScrollChanged() {
-        if (!mShowing && !mIsFixedTitleBar) {
+        if (!mShowing) {
             setTranslationY(getVisibleTitleHeight() - getEmbeddedHeight());
         }
     }

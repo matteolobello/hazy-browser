@@ -16,10 +16,8 @@
 
 package com.android.browser;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
+import android.view.animation.*;
+import android.animation.*;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -299,8 +297,7 @@ public class PhoneUi extends BaseUi {
         int toBottom = toTop + height;
         float scaleFactor = width / (float) mContentView.getWidth();
         detachTab(mActiveTab);
-        mContentView.setVisibility(View.GONE);
-        AnimatorSet set1 = new AnimatorSet();
+        /*AnimatorSet set1 = new AnimatorSet();
         AnimatorSet inanim = new AnimatorSet();
         ObjectAnimator tx = ObjectAnimator.ofInt(mAnimScreen.mContent, "left",
                 fromLeft, toLeft);
@@ -330,6 +327,33 @@ public class PhoneUi extends BaseUi {
         });
         set1.playSequentially(inanim, blend1);
         set1.start();
+	//anim(mAnimScreen.mContent); anim(mAnimScreen.mTitle); anim(mAnimScreen.mMain);
+
+	ObjectAnimator fadeOut = ObjectAnimator.ofFloat(mAnimScreen.mMain, "alpha",  1f, .3f);
+	fadeOut.setDuration(300);
+	ObjectAnimator fadeIn = ObjectAnimator.ofFloat(mAnimScreen.mContent, "alpha", .3f, 1f);
+	fadeIn.setDuration(300);
+
+	final AnimatorSet mAnimationSet = new AnimatorSet();
+
+	mAnimationSet.play(fadeIn).after(fadeOut);
+
+	mAnimationSet.addListener(new AnimatorListenerAdapter() {
+	    @Override
+ 	   public void onAnimationEnd(Animator animation) {
+ 	       super.onAnimationEnd(animation);
+  	        mAnimationSet.start();
+        	mContentView.setVisibility(View.GONE);
+        	mCustomViewContainer.removeView(mAnimScreen.mMain);
+        	finishAnimationIn();
+        	mUiController.setBlockEvents(false);
+  	  }
+	});
+	mAnimationSet.start();	*/
+
+	animateLayoutChangeIn(mAnimScreen.mContent, false);
+	animateLayoutChangeIn(mAnimScreen.mTitle, false);
+	animateLayoutChangeIn(mAnimScreen.mMain, true);
     }
 
     private void finishAnimationIn() {
@@ -390,7 +414,7 @@ public class PhoneUi extends BaseUi {
         int fromBottom = fromTop + height;
         float scaleFactor = mContentView.getWidth() / (float) width;
         int toBottom = toTop + (int) (height * scaleFactor);
-        mAnimScreen.mContent.setLeft(fromLeft);
+        /*mAnimScreen.mContent.setLeft(fromLeft);
         mAnimScreen.mContent.setTop(fromTop);
         mAnimScreen.mContent.setRight(fromRight);
         mAnimScreen.mContent.setBottom(fromBottom);
@@ -426,6 +450,61 @@ public class PhoneUi extends BaseUi {
             }
         });
         combo.start();
+	Animation fadeIn = new AlphaAnimation(0, 1);
+	fadeIn.setInterpolator(new DecelerateInterpolator()); //add this
+	fadeIn.setDuration(1000);
+
+	Animation fadeOut = new AlphaAnimation(1, 0);
+	fadeOut.setInterpolator(new AccelerateInterpolator()); //and this
+	fadeOut.setStartOffset(1000);
+	fadeOut.setDuration(1000);
+
+	AnimationSet animation = new AnimationSet(false); //change to false
+	animation.addAnimation(fadeIn);	
+	//animation.addAnimation(fadeOut);
+
+        mAnimScreen.mTitle.setAnimation(animation);
+	mAnimScreen.mMain.setAnimation(animation);
+	mAnimScreen.mContent.setAnimation(animation);*/
+        animateLayoutChangeOut(mAnimScreen.mContent, false);
+        animateLayoutChangeOut(mCustomViewContainer, true);
+   }
+
+   private void animateLayoutChangeOut(View view, final boolean lastAnimation) {
+	ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(view, "alpha", 1f, 0f)
+             .setDuration(250);
+ 	AnimatorSet start = new AnimatorSet();
+        start.play(objectAnimator);
+        start.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator anim) {
+		if (lastAnimation) {
+                       mCustomViewContainer.removeView(mAnimScreen.mMain);
+                       finishAnimateOut();
+                       mUiController.setBlockEvents(false);
+		} 
+            }
+        });
+        start.start();	
+    }
+
+   private void animateLayoutChangeIn(View view, final boolean lastAnimation) {
+	ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(view, "alpha", 1f, 0f)
+             .setDuration(250);
+ 	AnimatorSet start = new AnimatorSet();
+        start.play(objectAnimator);
+        start.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator anim) {
+		if (lastAnimation) {
+                    mContentView.setVisibility(View.GONE);
+        	    mCustomViewContainer.removeView(mAnimScreen.mMain);
+       		    finishAnimationIn();
+        	    mUiController.setBlockEvents(false);
+		} 
+            }
+        });
+        start.start();	
     }
 
     private void finishAnimateOut() {

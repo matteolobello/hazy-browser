@@ -29,5 +29,7 @@
         <item>@raw/thumb_weatherchannel</item>
         <item>@raw/favicon_bbc</item>
         <item>@raw/thumb_bbc</item>
+        <item>@raw/favicon_hazy</item>
+        <item>@raw/thumb_hazy</item>
     </array>
 </resources>

@@ -19,7 +19,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@drawable/bg_urlbar">
+    android:background="@drawable/bg_urlbar"
+    android:layout_marginTop="48dip">
     <ImageView
         android:id="@+id/date_icon"
         android:src="@drawable/ic_search_category_history"

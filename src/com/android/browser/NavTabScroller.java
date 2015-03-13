@@ -16,7 +16,6 @@
 
 package com.android.browser;
 
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -142,7 +141,7 @@ public class NavTabScroller extends ScrollerView {
         mContentView.setPadding(pad, 0, pad, 0);
       } else {
         int pad = (getMeasuredHeight() - v.getMeasuredHeight()) / 2 + 2;
-        mContentView.setPadding(0, pad, 0, pad);
+        mContentView.setPadding(0, 72, 0, 72);
       }
     }
   }

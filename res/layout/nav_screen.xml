@@ -24,6 +24,9 @@
         android:id="@+id/scroller"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingLeft="8dip"
+        android:paddingRight="8dip"
+	android:layout_marginTop="38dp"
         android:orientation="vertical" />
     <LinearLayout
         android:id="@+id/tabbar"
@@ -61,20 +64,24 @@
             android:src="@drawable/ic_menu_overflow" />
     </LinearLayout>
 
-   <RelativeLayout	
-	android:id="@+id/floating_action_button_container"	
-	android:background="@drawable/fab_accent"	
-	android:layout_alignParentRight="true"	
-	android:layout_alignParentBottom="true"	
-	android:layout_margin="16dp"	
-	android:elevation="4dp"	
-	android:layout_height="wrap_content"	
-	android:layout_width="wrap_content">	
-		<ImageButton	
-		  android:id="@+id/floating_action_button"	
-		  android:layout_width="56dp"	
-		  android:layout_height="56dp"	
-		  android:background="@drawable/floating_action_button"	
-		  android:src="@drawable/ic_menu_new_window"/>	
-  </RelativeLayout>
+   <FrameLayout
+        android:id="@+id/floating_action_button_container"
+        android:clickable="true"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+	android:elevation="8dp"
+	android:layout_alignParentBottom="true"
+	android:layout_alignParentRight="true"
+	android:layout_marginRight="16dp"
+	android:layout_marginBottom="16dp"
+	android:background="@drawable/fab_accent"		
+	android:layout_margin="16dp">
+
+        <ImageView
+	      android:layout_width="24dp"
+ 	      android:layout_height="24dp"
+	      android:layout_gravity="center"
+              android:src="@drawable/ic_new_window_dark"/>
+   </FrameLayout>
+
 </RelativeLayout>
